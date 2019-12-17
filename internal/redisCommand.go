@@ -1,16 +1,8 @@
 package internal
 
 const (
-
-	RedisKeys  = "KEYS *"
-	RedisDel   = "DEL"
 	RedisClear = "FLUSHALL"
 
-	//Hash
-	RedisHashSet    = "HSET"
-	RedisHashGet    = "HGET"
-	RedisHashMSet   = "HMSET"
-	RedisHashMGet   = "HMGET"
 	RedisHashGetAll = "HGETALL"
 	RedisHashEXISTS = "HEXISTS"
 	RedisHashLen    = "HLEN"
