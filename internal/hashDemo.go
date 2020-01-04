@@ -5,7 +5,7 @@ import (
 	"github.com/garyburd/redigo/redis"
 )
 
-func HSetAdnHGet(conn redis.Conn) {
+func HSetAndHGet(conn redis.Conn) {
 	if _, err := conn.Do("HSET", "hashDemo", "name", "xiaowang", "age", 20); err != nil {
 		fmt.Println(err)
 		return
@@ -30,7 +30,7 @@ func HSetAdnHGet(conn redis.Conn) {
 Redis Hmset 命令用于同时将多个 field-value (字段-值)对设置到哈希表中。
 此命令会覆盖哈希表中已存在的字段。
 如果哈希表不存在，会创建一个空哈希表，并执行 HMSET 操作
- */
+*/
 func HMSetAndHMGet(conn redis.Conn) {
 	if _, err := conn.Do("HMSET", "hashDemo", "name", "xiaowang", "age", 20); err != nil {
 		fmt.Println(err)
@@ -40,7 +40,7 @@ func HMSetAndHMGet(conn redis.Conn) {
 	if values, err := redis.Values(conn.Do("HMGET", "hashDemo", "name", "age")); err != nil {
 		fmt.Println(err)
 		return
-	}else{
+	} else {
 		var value1 string
 		var value2 string
 
@@ -52,3 +52,117 @@ func HMSetAndHMGet(conn redis.Conn) {
 	}
 }
 
+func HGetAllI(conn redis.Conn) {
+	if _, err := conn.Do("HMSET", "hashDemo", "name", "xiaowang", "age", 20); err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	if values, err := redis.Values(conn.Do("HGETALL", "hashDemo")); err != nil {
+		fmt.Println(err)
+		return
+	} else {
+		for _, v := range values {
+			value := v.([]uint8)
+			fmt.Println(B2S(value))
+		}
+	}
+}
+
+func B2S(bs []uint8) string {
+	var ba []byte
+	for _, b := range bs {
+		ba = append(ba, byte(b))
+	}
+	return string(ba)
+}
+
+func Hexists(conn redis.Conn) {
+	if _, err := conn.Do("HMSET", "hashDemo", "name", "xiaowang", "age", 20); err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	if value, err := redis.Bool(conn.Do("HEXISTS", "hashDemo", "name")); err != nil {
+		fmt.Println(err)
+		return
+	} else {
+		fmt.Println(value)
+	}
+
+	if value, err := redis.Bool(conn.Do("HEXISTS", "hashDemo", "fullname")); err != nil {
+		fmt.Println(err)
+		return
+	} else {
+		fmt.Println(value)
+	}
+}
+
+func HLen(conn redis.Conn) {
+	if _, err := conn.Do("HMSET", "hashDemo", "name", "xiaowang", "age", 20); err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	if value, err := redis.Int(conn.Do("HLEN", "hashDemo")); err != nil {
+		fmt.Println(err)
+		return
+	} else {
+		fmt.Println(value)
+	}
+}
+
+func HKeys(conn redis.Conn) {
+	if _, err := conn.Do("HMSET", "hashDemo", "name", "xiaowang", "age", 20); err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	if values, err := redis.Values(conn.Do("HKEYS", "hashDemo")); err != nil {
+		fmt.Println(err)
+		return
+	} else {
+		for _, v := range values {
+			value := v.([]uint8)
+			fmt.Println(B2S(value))
+		}
+	}
+}
+
+func HValues(conn redis.Conn) {
+	if _, err := conn.Do("HMSET", "hashDemo", "name", "xiaowang", "age", 20); err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	if values, err := redis.Values(conn.Do("HVALS", "hashDemo")); err != nil {
+		fmt.Println(err)
+		return
+	} else {
+		for _, v := range values {
+			value := v.([]uint8)
+			fmt.Println(B2S(value))
+		}
+	}
+}
+
+func HDel(conn redis.Conn) {
+	if _, err := conn.Do("HMSET", "hashDemo", "name", "xiaowang", "age", 20); err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	if value, err := redis.Int(conn.Do("HDEL", "hashDemo", "name")); err != nil {
+		fmt.Println(err)
+		return
+	} else {
+		fmt.Println(value)
+	}
+
+	if value, err := redis.Int(conn.Do("HDEL", "hashDemo", "age")); err != nil {
+		fmt.Println(err)
+		return
+	} else {
+		fmt.Println(value)
+	}
+}

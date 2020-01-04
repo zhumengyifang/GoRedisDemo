@@ -5,7 +5,7 @@ import (
 	"goredis/internal"
 )
 
-const ipAddress = "192.168.20.42:6379"
+const ipAddress = "192.168.1.8:6379"
 const protocolType = "tcp"
 const passWord = "myredis123"
 
@@ -17,7 +17,7 @@ func main() {
 	}
 	defer conn.Close()
 
-	internal.HMSetAndHMGet(conn)
+	internal.HDel(conn)
 
 	fmt.Println("End......")
 }
