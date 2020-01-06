@@ -17,7 +17,7 @@ func main() {
 	}
 	defer conn.Close()
 
-	internal.HDel(conn)
+	internal.Rpoplpush(conn)
 
 	fmt.Println("End......")
 }
