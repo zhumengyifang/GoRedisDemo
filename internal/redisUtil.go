@@ -19,8 +19,5 @@ func CreateConn(protocolType string, redisAddress string, password string) (redi
 		return nil, err
 	}
 
-	if _, err := conn.Do("FLUSHALL"); err != nil {
-		return nil, err
-	}
 	return conn, nil
 }
